@@ -2,23 +2,23 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 
-const panelVariants = {
+const panelVariants: Variants = {
   hidden:  { x: 60, opacity: 0 },
   visible: {
     x: 0,
     opacity: 1,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as number[] },
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const },
   },
   exit: {
     x: 60,
     opacity: 0,
-    transition: { duration: 0.3, ease: [0.55, 0, 1, 0.45] as number[] },
+    transition: { duration: 0.3, ease: [0.55, 0, 1, 0.45] as const },
   },
 };
 
-const backdropVariants = {
+const backdropVariants: Variants = {
   hidden:  { opacity: 0 },
   visible: { opacity: 1, transition: { duration: 0.3 } },
   exit:    { opacity: 0, transition: { duration: 0.25 } },
@@ -49,7 +49,6 @@ export default function OverlayShell({ children }: OverlayShellProps) {
   return (
     <AnimatePresence mode="wait">
       <div key="overlay-root" className="overlay-root">
-        {/* Backdrop */}
         <motion.div
           key="overlay-backdrop"
           className="overlay-backdrop"
@@ -61,7 +60,6 @@ export default function OverlayShell({ children }: OverlayShellProps) {
           aria-hidden="true"
         />
 
-        {/* Panel */}
         <motion.div
           key="overlay-panel"
           className="overlay-panel"
