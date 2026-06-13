@@ -1,30 +1,28 @@
 // Server Component — pure display
 import Link from "next/link";
-import type { PostStub } from "@/types/post";
+import type { CardProps } from "@/components/blog/PostCard";
 
-const CATEGORY_LABELS: Record<PostStub["category"], string> = {
+const CATEGORY_LABELS: Record<CardProps["category"], string> = {
   development: "Development",
   data:        "Data Analysis",
   marketing:   "Marketing",
 };
 
-const CATEGORY_CLASS: Record<PostStub["category"], string> = {
+const CATEGORY_CLASS: Record<CardProps["category"], string> = {
   development: "tag-dev",
   data:        "tag-data",
   marketing:   "tag-marketing",
 };
 
-// Placeholder gradient covers when no real image exists yet
-const CATEGORY_GRADIENT: Record<PostStub["category"], string> = {
+const CATEGORY_GRADIENT: Record<CardProps["category"], string> = {
   development: "linear-gradient(135deg, rgba(74,158,255,0.15) 0%, rgba(10,10,10,0.8) 100%)",
   data:        "linear-gradient(135deg, rgba(47,179,128,0.15) 0%, rgba(10,10,10,0.8) 100%)",
   marketing:   "linear-gradient(135deg, rgba(232,97,42,0.15) 0%, rgba(10,10,10,0.8) 100%)",
 };
 
-export default function FeaturedPostCard({ post }: { post: PostStub }) {
+export default function FeaturedPostCard({ post }: { post: CardProps }) {
   return (
     <Link href={`/blog/${post.slug}`} className="featured-card">
-      {/* Left — image / cover */}
       <div
         className="featured-card-image"
         style={{
@@ -34,11 +32,9 @@ export default function FeaturedPostCard({ post }: { post: PostStub }) {
         }}
         aria-hidden="true"
       >
-        {/* Subtle label over image */}
         <span className="featured-card-image-label label-light">Featured</span>
       </div>
 
-      {/* Right — content */}
       <div className="featured-card-content">
         <span className={`featured-card-tag ${CATEGORY_CLASS[post.category]}`}>
           {CATEGORY_LABELS[post.category]}
@@ -69,9 +65,7 @@ export default function FeaturedPostCard({ post }: { post: PostStub }) {
           transition: background-color 0.2s ease;
           cursor: pointer;
         }
-        .featured-card:hover {
-          background-color: var(--light-2);
-        }
+        .featured-card:hover { background-color: var(--light-2); }
         .featured-card-image {
           position: relative;
           min-height: 260px;
@@ -92,9 +86,7 @@ export default function FeaturedPostCard({ post }: { post: PostStub }) {
           padding: 2rem 2rem 2rem 2.25rem;
           justify-content: center;
         }
-        .featured-card-tag {
-          align-self: flex-start;
-        }
+        .featured-card-tag { align-self: flex-start; }
         .featured-card-title {
           font-family: var(--font-serif);
           font-size: 1.75rem;
@@ -133,24 +125,12 @@ export default function FeaturedPostCard({ post }: { post: PostStub }) {
           margin-top: 0.25rem;
           transition: letter-spacing 0.2s ease;
         }
-        .featured-card:hover .featured-card-cta {
-          letter-spacing: 0.1em;
-        }
-
-        /* Stack on mobile */
+        .featured-card:hover .featured-card-cta { letter-spacing: 0.1em; }
         @media (max-width: 700px) {
-          .featured-card {
-            grid-template-columns: 1fr;
-          }
-          .featured-card-image {
-            min-height: 200px;
-          }
-          .featured-card-content {
-            padding: 1.5rem;
-          }
-          .featured-card-title {
-            font-size: 1.4rem;
-          }
+          .featured-card { grid-template-columns: 1fr; }
+          .featured-card-image { min-height: 200px; }
+          .featured-card-content { padding: 1.5rem; }
+          .featured-card-title { font-size: 1.4rem; }
         }
       `}</style>
     </Link>

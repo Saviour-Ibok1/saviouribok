@@ -1,34 +1,42 @@
 // Server Component — pure display, no interactivity
 import Link from "next/link";
-import type { PostStub } from "@/types/post";
+import type { PostPreview } from "@/types/post";
 
-const CATEGORY_LABELS: Record<PostStub["category"], string> = {
+// Lightweight card prop shape used by both PostCard and FeaturedPostCard
+export type CardProps = {
+  slug:       string;
+  title:      string;
+  excerpt:    string;
+  category:   PostPreview["category"];
+  date:       string;
+  readTime:   string;
+  likes:      number;
+  coverImage?: string;
+};
+
+const CATEGORY_LABELS: Record<CardProps["category"], string> = {
   development: "Development",
   data:        "Data Analysis",
   marketing:   "Marketing",
 };
 
-const CATEGORY_CLASS: Record<PostStub["category"], string> = {
+const CATEGORY_CLASS: Record<CardProps["category"], string> = {
   development: "tag-dev",
   data:        "tag-data",
   marketing:   "tag-marketing",
 };
 
-export default function PostCard({ post }: { post: PostStub }) {
+export default function PostCard({ post }: { post: CardProps }) {
   return (
     <Link href={`/blog/${post.slug}`} className="post-card">
-      {/* Top — tag */}
       <span className={`post-card-tag ${CATEGORY_CLASS[post.category]}`}>
         {CATEGORY_LABELS[post.category]}
       </span>
 
-      {/* Title */}
       <h2 className="post-card-title">{post.title}</h2>
 
-      {/* Excerpt */}
       <p className="post-card-excerpt">{post.excerpt}</p>
 
-      {/* Meta row */}
       <div className="post-card-meta">
         <span className="post-card-meta-item">{post.date}</span>
         <span className="post-card-meta-dot" aria-hidden="true">·</span>
@@ -48,12 +56,8 @@ export default function PostCard({ post }: { post: PostStub }) {
           transition: background-color 0.2s ease;
           cursor: pointer;
         }
-        .post-card:hover {
-          background-color: var(--light-2);
-        }
-        .post-card-tag {
-          align-self: flex-start;
-        }
+        .post-card:hover { background-color: var(--light-2); }
+        .post-card-tag { align-self: flex-start; }
         .post-card-title {
           font-family: var(--font-serif);
           font-size: 1.3rem;
@@ -69,7 +73,6 @@ export default function PostCard({ post }: { post: PostStub }) {
           color: var(--ink-2);
           margin: 0;
           flex: 1;
-          /* Clamp to 3 lines */
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
